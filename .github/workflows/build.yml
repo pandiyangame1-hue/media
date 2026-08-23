@@ -25,10 +25,10 @@ jobs:
     - name: Build Demo APK
       run: |
         chmod +x gradlew
-        ./gradlew assembleDebug --stacktrace
+        ./gradlew :demos:main:assembleDebug --stacktrace
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
       with:
-        name: ExoPlayer-Demo-APK
-        path: "**/build/outputs/apk/debug/*.apk"
+        name: ExoPlayer-60fps-APK
+        path: demos/main/build/outputs/apk/debug/*.apk
