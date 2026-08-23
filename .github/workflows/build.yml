@@ -1,0 +1,35 @@
+name: Build ExoPlayer APK
+
+on:
+  push:
+    branches: [ "main", "release" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
+    - name: Build Demo APK with Gradle
+      run: |
+        chmod +x ./gradlew
+        ./gradlew :demos:main:assembleDebug --stacktrace
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: ExoPlayer-Demo-APK
+        path: demos/main/build/outputs/apk/debug/*.apk
+        
